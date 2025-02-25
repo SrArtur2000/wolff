@@ -3,7 +3,7 @@ program wolff
 
   integer, parameter :: L = 10
   integer, parameter :: iseed = 10
-  integer, parameter :: Nth = 3000, N = L**2
+  integer, parameter :: Nth = 1000, N = L**2
 
   integer, dimension(L,L) :: S
   integer, dimension(4,L) :: nn
@@ -46,7 +46,7 @@ program wolff
         enddo
       enddo
       csizem = csizem/N
-      call measure(S,E1,M1,i5,nn)
+      call measure(S,E1,M1,i5,nn,contador)
       Em = Em + E1
       Mm = Mm + M1
     enddo
@@ -140,12 +140,12 @@ subroutine wolffmc(S,ix,iy,nn,icont)
 ! print*, "Esse cluster teve", icont, "Spins"
 end subroutine wolffmc
 
-subroutine measure(S,E,M,i,nn)
+subroutine measure(S,E,M,i,nn,contador)
   implicit none
 
   integer, dimension(L,L) :: S
   real(8) :: E,M,Em,Mm
-  integer :: i, i1
+  integer :: i,i1,contador
   integer, dimension(4,L) :: nn
 
   E = 0.0d0
@@ -153,17 +153,15 @@ subroutine measure(S,E,M,i,nn)
   do i1 = 1,L
     do j = 1,L
       M = M + S(i1,j)
-      E = E - S(i1,j)*(S(i1,nn(2,j)) + S(i1,nn(4,j))+ S(nn(1,i1),j)+S(nn(3,i1),j) ) 
+      E = E - S(i1,j)*(S(i1,nn(2,j))+S(i1,nn(4,j))+S(nn(1,i1),j)+S(nn(3,i1),j)) 
     enddo
   enddo
   M = abs(M)/N
   E = E/N
   Em = E
   Mm = abs(M)
-  if(T .eq. 0.1d0) then  
-    write(10,*)i, M
-  endif
-! write(20,*)i, E
+  write(contador + 100,*)i,M
+! write(20,*)i,E
 end subroutine measure
 
 end program wolff
