@@ -20,9 +20,8 @@ program autocorr
     do i = 1, Nth
       x = 0.0d0
       do k = 1, Nth
-        x = x + obs(k)*obs(k+i)-obsmean**2
+        x = x + obs(k)*obs(mod(k+i,Nth))-obsmean**2
       enddo
-      print*, x
       write(2000+j,*)i,x
     enddo
   enddo
