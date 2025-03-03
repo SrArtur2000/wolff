@@ -3,8 +3,8 @@ program wolff
 
   integer, parameter :: L = 10
   integer, parameter :: iseed = 10
-  integer, parameter :: Nth = 1000, N = L**2
-
+  integer, parameter :: Nth = 10000, N = L**2
+  
   integer, dimension(L,L) :: S
   integer, dimension(4,L) :: nn
   integer :: i,j,k, ix, iy,i5,j5,j6,contador,csize,csizem
@@ -15,6 +15,8 @@ program wolff
   open(50,file='ExT.dat')
   open(60,file='ClxT.dat')
   call random_init(.true.,.true.)
+
+  print*, "O lado da rede é", L
 
   do i = 1, L 
     nn(1,i) = 1 + mod(i,L)
@@ -36,14 +38,12 @@ program wolff
     Mm = 0.0d0
     do i5 = 1, Nth
       do j5 = 1, L
-        do j6 = 1, L
           call random_number(r)
           ix = L*r + 1
           call random_number(r)
           iy = L*r + 1
           call wolffmc(S,ix,iy,nn,csize)
           csizem = csizem + csize
-        enddo
       enddo
       csizem = csizem/N
       call measure(S,E1,M1,i5,nn,contador)

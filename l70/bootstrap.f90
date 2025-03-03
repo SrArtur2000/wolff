@@ -1,6 +1,6 @@
       program bootstrap
         implicit real *8(a-h,o-z)
-        integer, parameter :: Nth=10000, Kth = 100000
+        integer, parameter :: Nth=100, Kth = 50000
         real(8) :: Oo(Nth),O1(Kth),O2(Kth),O4(Kth), sus(Kth), binder(Kth)
 
 
@@ -13,8 +13,8 @@
 
         call random_init(.true.,.true.)
         
-        do k = 102,592
-          aT = real(k-100)/100
+        do k = 1102,1592
+          aT = real(k-1100)/100
           print*, "Estamos na temperatura", aT
           Oo = 0.0d0
 !Pega os dados que gerarão os dados aleatórios para o bootstrap
